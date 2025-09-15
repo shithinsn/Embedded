@@ -1,4 +1,4 @@
-
+// this is program to rotate motor in clockwise counter clockwise and stop when a switch connected to PD2 is pressed. The switched it normally pulled up
 
 #define F_CPU 16000000UL
 #include <util/delay.h>

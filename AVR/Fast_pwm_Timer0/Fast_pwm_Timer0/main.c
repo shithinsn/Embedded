@@ -13,10 +13,9 @@ int main(void)
 {
 	DDRD|=(1<<PD6);
 		
-    /* Replace with your application code */
-    while (1) 
-    {
-	 TCCR0A|=(1<<WGM01);
+   
+    while (1)
+	{	 TCCR0A|=(1<<WGM01);
 	 TCCR0A|=(1<<WGM00);
 	 TCCR0A|=(1<<COM0A1);
 	 TCCR0B|=(1<<CS00);

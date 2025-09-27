@@ -80,10 +80,9 @@ int main(void)
   82:	80 64       	ori	r24, 0x40	; 64
   84:	8a b9       	out	0x0a, r24	; 10
 		
-    /* Replace with your application code */
-    while (1) 
-    {
-	 TCCR0A|=(1<<WGM01);
+   
+    while (1)
+	{	 TCCR0A|=(1<<WGM01);
   86:	84 b5       	in	r24, 0x24	; 36
   88:	82 60       	ori	r24, 0x02	; 2
   8a:	84 bd       	out	0x24, r24	; 36

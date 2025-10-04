@@ -7,7 +7,7 @@
 #define F_CPU 16000000UL
 #include <avr/io.h>
 #include <avr/interrupt.h>
-uint16_t count=0;
+volatile uint16_t count=0;
 
 ISR(TIMER0_OVF_vect)  // INTERRUPT SERVICE ROUTINE (TIMER0_OVF_vect= INTERRUPT VECTOR TABLE "ADDRESS" FOR TIMER OVER FLOW
 {

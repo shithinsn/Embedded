@@ -3,27 +3,27 @@ Fast_pwm_Timer0.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000102  2**0
+  0 .data         00000000  00800100  00800100  000000f6  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000000ae  00000000  00000000  00000054  2**1
+  1 .text         000000a2  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000102  2**0
+  2 .comment      00000030  00000000  00000000  000000f6  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000134  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000128  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  00000174  2**0
+  4 .debug_aranges 00000020  00000000  00000000  00000168  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   0000067c  00000000  00000000  00000194  2**0
+  5 .debug_info   0000067c  00000000  00000000  00000188  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000005f8  00000000  00000000  00000810  2**0
+  6 .debug_abbrev 000005f8  00000000  00000000  00000804  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000211  00000000  00000000  00000e08  2**0
+  7 .debug_line   000001fd  00000000  00000000  00000dfc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  0000101c  2**2
+  8 .debug_frame  00000024  00000000  00000000  00000ffc  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000034c  00000000  00000000  00001040  2**0
+  9 .debug_str    0000034c  00000000  00000000  00001020  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000010  00000000  00000000  0000138c  2**0
+ 10 .debug_ranges 00000010  00000000  00000000  0000136c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -64,7 +64,7 @@ Disassembly of section .text:
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
   74:	0e 94 40 00 	call	0x80	; 0x80 <main>
-  78:	0c 94 55 00 	jmp	0xaa	; 0xaa <_exit>
+  78:	0c 94 4f 00 	jmp	0x9e	; 0x9e <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -75,40 +75,31 @@ Disassembly of section .text:
 
 int main(void)
 {
-	DDRD|=(1<<PD6);
+	 DDRD|=(1<<PORTD6);                     //SET PD6 AS OUTPUT
   80:	8a b1       	in	r24, 0x0a	; 10
   82:	80 64       	ori	r24, 0x40	; 64
   84:	8a b9       	out	0x0a, r24	; 10
-		
-   
-    while (1)
-	{	 TCCR0A|=(1<<WGM01);
+	 while (1)
+	 {
+	 TCCR0A|=(1<<WGM01)|(1<<WGM00);        //SELECT FAST PWM
   86:	84 b5       	in	r24, 0x24	; 36
-  88:	82 60       	ori	r24, 0x02	; 2
+  88:	83 60       	ori	r24, 0x03	; 3
   8a:	84 bd       	out	0x24, r24	; 36
-	 TCCR0A|=(1<<WGM00);
+	 TCCR0A|=(1<<COM0A1);                 //ENABLE NON-INVERTING MODE
   8c:	84 b5       	in	r24, 0x24	; 36
-  8e:	81 60       	ori	r24, 0x01	; 1
+  8e:	80 68       	ori	r24, 0x80	; 128
   90:	84 bd       	out	0x24, r24	; 36
-	 TCCR0A|=(1<<COM0A1);
-  92:	84 b5       	in	r24, 0x24	; 36
-  94:	80 68       	ori	r24, 0x80	; 128
-  96:	84 bd       	out	0x24, r24	; 36
-	 TCCR0B|=(1<<CS00);
-  98:	85 b5       	in	r24, 0x25	; 37
-  9a:	81 60       	ori	r24, 0x01	; 1
-  9c:	85 bd       	out	0x25, r24	; 37
-	 TCCR0B|=(1<<CS01);
-  9e:	85 b5       	in	r24, 0x25	; 37
-  a0:	82 60       	ori	r24, 0x02	; 2
-  a2:	85 bd       	out	0x25, r24	; 37
-	 OCR0A=78.12;
-  a4:	8e e4       	ldi	r24, 0x4E	; 78
-  a6:	87 bd       	out	0x27, r24	; 39
-  a8:	ee cf       	rjmp	.-36     	; 0x86 <main+0x6>
+	 TCCR0B|=(1<<CS00)|(1<<CS01);         //SET PRESCALAR 64
+  92:	85 b5       	in	r24, 0x25	; 37
+  94:	83 60       	ori	r24, 0x03	; 3
+  96:	85 bd       	out	0x25, r24	; 37
+	 OCR0A=100;                         //SELECT DUTYCYCLE
+  98:	84 e6       	ldi	r24, 0x64	; 100
+  9a:	87 bd       	out	0x27, r24	; 39
+  9c:	f4 cf       	rjmp	.-24     	; 0x86 <main+0x6>
 
-000000aa <_exit>:
-  aa:	f8 94       	cli
+0000009e <_exit>:
+  9e:	f8 94       	cli
 
-000000ac <__stop_program>:
-  ac:	ff cf       	rjmp	.-2      	; 0xac <__stop_program>
+000000a0 <__stop_program>:
+  a0:	ff cf       	rjmp	.-2      	; 0xa0 <__stop_program>

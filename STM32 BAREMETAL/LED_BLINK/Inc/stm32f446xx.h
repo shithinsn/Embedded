@@ -60,34 +60,40 @@ GPIO_RegDef_t;
  */
 typedef struct
 {
-	volatile uint32_t CR;
-	volatile uint32_t PLCFGR;
-	volatile uint32_t CFGR;
-	volatile uint32_t CIR;
-	volatile uint32_t AHB1RSTR;
-	volatile uint32_t AHB2RSTR;
-	volatile uint32_t AHB3RSTR;
-	volatile uint32_t RESERVED0;
-	volatile uint32_t APB1RSTR;
-	volatile uint32_t APB2RSTR;
-	volatile uint32_t AHB1ENR;
-	volatile uint32_t AHB2ENR;
-	volatile uint32_t AHB3ENR;
-	volatile uint32_t APB1ENR;
-	volatile uint32_t APB2ENR;
-	volatile uint32_t AHB1LPENR;
-	volatile uint32_t AHB2LPENR;
-	volatile uint32_t AHB3LPENR;
-	volatile uint32_t APB1LPENR;
-	volatile uint32_t APB2LPENR;
-	volatile uint32_t BDCR;
-	volatile uint32_t CSR;
-	volatile uint32_t SSCGR;
-	volatile uint32_t PLLI2SCFGR;
-	volatile uint32_t PLLSAICFGR;
-	volatile uint32_t DCKCFGR;
-	volatile uint32_t CKGATENR;
-	volatile uint32_t DCKCFGR2;
+	volatile uint32_t CR;              // RCC clock control register                    (0x00)
+	volatile uint32_t PLCFGR;          // RCC PLL configuration register                (0x04)
+	volatile uint32_t CFGR;            // RCC clock configuration register              (0x08)
+	volatile uint32_t CIR;             // RCC clock interrupt register                  (0x0C)
+	volatile uint32_t AHB1RSTR;        // RCC AHB1 peripheral reset register            (0x10)
+	volatile uint32_t AHB2RSTR;        // RCC AHB2 peripheral reset register            (0x14)
+	volatile uint32_t AHB3RSTR;        // RCC AHB3 peripheral reset register            (0x18)
+	volatile uint32_t RESERVED0;       //RESERVED                                       (0x1C)
+	volatile uint32_t APB1RSTR;        // RCC APB1 peripheral reset register            (0x20)
+	volatile uint32_t APB2RSTR;        // RCC APB2 peripheral reset register            (0x24)
+	volatile uint32_t RESERVED1[2];    //RESERVED                                       (0x28-0x2C)
+	volatile uint32_t AHB1ENR;         // RCC AHB1 peripheral clock enable register     (0x30)
+	volatile uint32_t AHB2ENR;         // RCC AHB2 peripheral clock enable register     (0x34)
+	volatile uint32_t AHB3ENR;         // RCC AHB3 peripheral clock enable register     (0x38)
+	volatile uint32_t RESERVED2;       //RESERVED                                       (0x3C)
+	volatile uint32_t APB1ENR;         //RCC APB1 peripheral clock enable register     (0x40)
+	volatile uint32_t APB2ENR;         //RCC APB2 peripheral clock enable register     (0x44)
+	volatile uint32_t RESERVED3[2];    //RESERVED                                      (0x48-0x4C)
+	volatile uint32_t AHB1LPENR;       // RCC AHB1 peripheral clock enable in low power (0x50)
+	volatile uint32_t AHB2LPENR;       // RCC AHB2 peripheral clock enable in low power (0x54)
+	volatile uint32_t AHB3LPENR;       // RCC AHB3 peripheral clock enable in low power (0x58)
+	volatile uint32_t RESERVED4;       //RESERVED                                       (0x5C)
+	volatile uint32_t APB1LPENR;       // RCC APB1 peripheral clock enable in low power (0x60)
+	volatile uint32_t APB2LPENR;       // RCC APB2 peripheral clock enable in low power (0x64)
+	volatile uint32_t RESERVED5[2];    //reserved                                       (0x68-0x6C)
+	volatile uint32_t BDCR;            // RCC Backup domain control register            (0x70)
+	volatile uint32_t CSR;             // RCC clock control & status register           (0x74)
+	volatile uint32_t RESERVED6[2];    // Reserved                                      (0x78-0x7C)
+	volatile uint32_t SSCGR;           // RCC spread spectrum clock generation register (0x80)
+	volatile uint32_t PLLI2SCFGR;      // RCC PLLI2S configuration register             (0x84)
+	volatile uint32_t PLLSAICFGR;      // RCC PLLSAI configuration register             (0x88)
+	volatile uint32_t DCKCFGR;         // RCC Dedicated Clocks configuration register   (0x8C)
+	volatile uint32_t CKGATENR;        // RCC clocks gated enable register              (0x90)
+	volatile uint32_t DCKCFGR2;        // RCC Dedicated Clocks configuration register 2 (0x94)
 } RCC_RegDef_t;
 
 

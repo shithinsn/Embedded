@@ -11,17 +11,13 @@
 
 int main(void)
 {
-	DDRD|=(1<<PD6);
-		
-   
-    while (1)
-	{	 TCCR0A|=(1<<WGM01);
-	 TCCR0A|=(1<<WGM00);
-	 TCCR0A|=(1<<COM0A1);
-	 TCCR0B|=(1<<CS00);
-	 TCCR0B|=(1<<CS01);
-	 OCR0A=78.12;
-	 	
-    }
+	 DDRD|=(1<<PORTD6);                     //SET PD6 AS OUTPUT
+	 while (1)
+	 {
+	 TCCR0A|=(1<<WGM01)|(1<<WGM00);        //SELECT FAST PWM
+	 TCCR0A|=(1<<COM0A1);                 //ENABLE NON-INVERTING MODE
+	 TCCR0B|=(1<<CS00)|(1<<CS01);         //SET PRESCALAR 64
+	 OCR0A=100;                         //SELECT DUTYCYCLE
+   }
 }
 

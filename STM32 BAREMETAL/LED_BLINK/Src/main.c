@@ -17,13 +17,46 @@
  */
 
 #include <stdint.h>
+#include "stm32f446xx.h"
+#include <stdio.h>
+#define LED_PIN  5
+#define BUTTON_PIN 13
 
-#if !defined(__SOFT_FP__) && defined(__ARM_FP)
-  #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
-#endif
 
 int main(void)
 {
-    /* Loop forever */
-	for(;;);
+	void delay_5ms(void)
+	{
+		for(volatile uint32_t i=0; i<840000;i++);
+	}
+ GPIOA_CLK_EN();      //ENABLE GPIOA CLOCK
+ GPIOC_CLK_EN();      //ENABLE GPIOC CLOCK
+
+ GPIOA->MODER&=~(0x3<<(LED_PIN*2));  //MAKE 10,11 POSITION ZERO
+ GPIOA->MODER|=(0x1<<(LED_PIN*2));       //GENERAL PURPOSE OUTPUT MODE TO PIN 11 AND 10
+ GPIOC->MODER &=~(0x3 << (BUTTON_PIN*2));
+
+ GPIOA->OTYPER&=~(1<<LED_PIN);
+
+ GPIOA->OSPEEDR&=~(0X3<<(LED_PIN*2));
+ GPIOA->OSPEEDR|=(0x1<<(LED_PIN*2));      //MEDIUM SPEED -01-
+
+ GPIOA->PUPDR&=~(0x3<<(LED_PIN*2));    //NO PULL-UP/PULL-DOWN -00-
+ GPIOC->PUPDR&=~(0x3 <<(LED_PIN*2));
+ GPIOC->PUPDR |=(0x1<<(LED_PIN*2));
+ //GPIOA->ODR|=(1<<5);
+
+
+  while(1)
+  {
+	  if(!(GPIOC->IDR & (1 << BUTTON_PIN))){
+	  printf("button is pressed\n");
+	 // GPIO->ODR ^=(1<<5); //Toggle led
+	  delay_5ms();
+     }else{
+	  GPIOA->ODR &=~(1<<5);
+	  printf("button is released\n");
+     }
+  }
 }
+

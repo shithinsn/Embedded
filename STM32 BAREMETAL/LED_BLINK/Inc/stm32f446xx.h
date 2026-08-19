@@ -115,8 +115,4 @@ typedef struct
 
 
 
- */
-};
-
-
 #endif /* STM32F446XX_H_ */

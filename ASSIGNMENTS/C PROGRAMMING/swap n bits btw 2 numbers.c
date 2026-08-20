@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+int main()
+{
+    unsigned int num1, num2, pos, n;
+    unsigned int mask, bits1, bits2;
+
+    printf("Enter first number: ");
+    scanf("%u", &num1);
+
+    printf("Enter second number: ");
+    scanf("%u", &num2);
+
+    printf("Enter starting bit position: ");
+    scanf("%u", &pos);
+
+    printf("Enter number of bits: ");
+    scanf("%u", &n);
+
+    mask = (1U << n) - 1;
+
+    bits1 = (num1 >> pos) & mask;
+    bits2 = (num2 >> pos) & mask;
+
+    num1 = num1 & ~(mask << pos);
+    num2 = num2 & ~(mask << pos);
+
+    num1 = num1 | (bits2 << pos);
+    num2 = num2 | (bits1 << pos);
+
+    printf("First number = %u\n", num1);
+    printf("Second number = %u", num2);
+
+    return 0;
+}
